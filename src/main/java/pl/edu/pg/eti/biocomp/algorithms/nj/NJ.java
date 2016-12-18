@@ -35,23 +35,24 @@ public class NJ {
             LOGGER.info("point= " + point.toString());
             int[] closests = point.positionAsArray();
 
-            List<Node> children = Arrays.asList(clusters[closests[0]].getNode(), clusters[closests[1]].getNode());
+            int f = closests[0], g = closests[1];
+            List<Node> children = Arrays.asList(clusters[f].getNode(), clusters[g].getNode());
             Cluster cluster = new Cluster(String.valueOf((char) ('u' + newTaxas++)), children);
             LOGGER.info("cluster= " + cluster.toString());
-            clusters[closests[0]] = cluster;
-            clusters[closests[1]] = null;
+            clusters[f] = cluster;
+            clusters[g] = null;
             LOGGER.info("clusters= " + Arrays.toString(clusters));
 
             double[][] tmpDistances = Matrix.copy(distances);
             for (int i = 0; i < n; i++) {
                 if (clusters[i] != null) {
-                    double distance = distanceFromNewNode(tmpDistances, closests[0], closests[1], i);
-                    distances[i][closests[0]] = distance;
-                    distances[closests[0]][i] = distance;
+                    double distance = distanceFromNewNode(tmpDistances, f, g, i);
+                    distances[i][f] = distance;
+                    distances[f][i] = distance;
                 } else {
                     for (int j = 0; j < n; j++) {
-                        distances[j][closests[1]] = Double.NaN;
-                        distances[closests[1]][j] = Double.NaN;
+                        distances[j][g] = Double.NaN;
+                        distances[g][j] = Double.NaN;
                     }
                 }
             }

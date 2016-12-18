@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 cd report
-latex report.tex
+pdflatex report.tex
 
-google-chrome ./report/report.pdf
+google-chrome report.pdf

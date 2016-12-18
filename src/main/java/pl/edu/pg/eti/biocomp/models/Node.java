@@ -13,7 +13,7 @@ public class Node {
         this.label = label;
     }
 
-    List<Node> getChidren() {
+    public List<Node> getChidren() {
         if (children == null) {
             children = new ArrayList<>();
         }
@@ -23,5 +23,9 @@ public class Node {
     @Override
     public String toString() {
         return label + (getChidren().size() > 0 ? ": " + Arrays.toString(getChidren().toArray()) : "");
+    }
+
+    public String getLabel() {
+        return label;
     }
 }

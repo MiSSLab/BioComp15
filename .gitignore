@@ -13,3 +13,6 @@ hs_err_pid*
 .idea/
 /target/
 /BioComp15.iml
+/report/report.aux
+/report/report.log
+/report/report.dvi
