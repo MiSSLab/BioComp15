@@ -5,5 +5,5 @@ Dla danej macierzy odległości między liśćmi utworzyć ważone drzewo ukorze
 ### Run
 ```
 mvn package
-java -jar target/distance-phylogenetics-jar-with-dependencies.jar
+java -jar -Dfilename="resources/data1.matrix" target/distance-phylogenetics-jar-with-dependencies.jar
 ```
