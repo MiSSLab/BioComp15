@@ -6,6 +6,7 @@ import pl.edu.pg.eti.biocomp.utils.CSV;
 import pl.edu.pg.eti.biocomp.utils.Log;
 import pl.edu.pg.eti.biocomp.utils.Matrix;
 
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -15,10 +16,11 @@ public class App {
     public static void main(String[] args) {
         LOGGER.log(Level.CONFIG, "CLI arguments", args);
 
-        String[][] data = CSV.load("resources/data2.matrix");
+        String[][] data = CSV.load("resources/data1.matrix");
         double[][] matrix = Matrix.format(data);
+        LOGGER.info(Arrays.deepToString(matrix));
         UPGMA upgma = new UPGMA(matrix);
         Cluster cluster = upgma.run();
-        LOGGER.info(matrix.toString());
+        LOGGER.info(cluster.toString());
     }
 }

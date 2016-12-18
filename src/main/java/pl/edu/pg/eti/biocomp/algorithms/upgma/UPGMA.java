@@ -19,6 +19,7 @@ public class UPGMA {
 
     public Cluster run() {
         int n = distances.length;
+        LOGGER.info("n= " + n);
         Cluster[] clusters = new Cluster[n];
         for (int i = 0; i < n; i++) {
             clusters[i] = new Cluster(String.valueOf((char) ('a' + i)), .0d);
@@ -31,7 +32,6 @@ public class UPGMA {
             LOGGER.info("clusters to merge= " + Arrays.toString(minDistancePoint.positionAsArray()) + " min Distance = " + minDistancePoint.getValue());
             clusters = mergeClusters(clusters, minDistancePoint);
             LOGGER.info("new clusters= " + Arrays.toString(clusters));
-            distances = clusterDistances;
         }
         assert clusters.length == 1;
         LOGGER.exiting(this.getClass().getCanonicalName(), "run", clusters[0]);
@@ -76,7 +76,7 @@ public class UPGMA {
             }
         }
         distance /= (aCount * bCount);
-        LOGGER.info("Distance between cluster a[" + a.toString() + "] and b[" + b.toString() + "] = " + distance);
+        LOGGER.info("Distance between cluster " + a.stringLabels() + " and " + b.stringLabels() + "= " + distance);
         return distance;
 
     }

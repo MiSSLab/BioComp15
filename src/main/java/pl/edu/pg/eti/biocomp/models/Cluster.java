@@ -62,4 +62,8 @@ public class Cluster {
         return "[Labels=[" + Arrays.toString(labels.toArray()) + "]" +
                 "Nodes=[" + node + "]]";
     }
+
+    public String stringLabels() {
+        return Arrays.toString(labels.toArray());
+    }
 }

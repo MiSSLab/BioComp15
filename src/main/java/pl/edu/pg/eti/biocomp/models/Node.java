@@ -22,6 +22,6 @@ class Node {
 
     @Override
     public String toString() {
-        return "Node[" + label + "]: " + Arrays.toString(getChidren().toArray());
+        return label + (getChidren().size() > 0 ? ": " + Arrays.toString(getChidren().toArray()) : "");
     }
 }

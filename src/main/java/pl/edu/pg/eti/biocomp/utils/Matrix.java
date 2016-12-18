@@ -7,13 +7,14 @@ public class Matrix {
     private static final Logger LOGGER = Log.getLogger();
 
     public static double[][] format(String[][] matrix) {
+        LOGGER.entering(Matrix.class.getCanonicalName(), "format", Arrays.deepToString(matrix));
         double[][] doubleMatrix = new double[matrix.length][matrix.length];
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix.length; j++) {
                 doubleMatrix[i][j] = Double.parseDouble(matrix[i][j]);
             }
         }
-        LOGGER.info("Converted data: " + Arrays.deepToString(doubleMatrix));
+        LOGGER.exiting(Matrix.class.getCanonicalName(), "format", Arrays.deepToString(doubleMatrix));
         return doubleMatrix;
     }
 
