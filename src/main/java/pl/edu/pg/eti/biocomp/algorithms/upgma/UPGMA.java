@@ -28,7 +28,7 @@ public class UPGMA {
         while (clusters.length > 1) {
             double[][] clusterDistances = getClusterDistances(clusters);
             LOGGER.info("cluster distances= " + Arrays.deepToString(clusterDistances));
-            Point minDistancePoint = findClosestClusters(clusterDistances);
+            Point minDistancePoint = Matrix.findLowestValuePoint(clusterDistances);
             LOGGER.info("clusters to merge= " + Arrays.toString(minDistancePoint.positionAsArray()) + " min Distance = " + minDistancePoint.getValue());
             clusters = mergeClusters(clusters, minDistancePoint);
             LOGGER.info("new clusters= " + Arrays.toString(clusters));
@@ -51,20 +51,6 @@ public class UPGMA {
         return clusterDistances;
     }
 
-    private Point findClosestClusters(double[][] clusterDistances) {
-        int n = clusterDistances.length;
-        Point minPoint = new Point(0, 0, Double.MAX_VALUE);
-        for (int i = 0; i < n; i++) {
-            for (int j = i + 1; j < n; j++) {
-                double distance = clusterDistances[i][j];
-                if (distance < minPoint.getValue()) {
-                    minPoint = new Point(i, j, distance);
-                }
-            }
-        }
-        LOGGER.info("min point= " + minPoint);
-        return minPoint;
-    }
 
     private double distance(Cluster a, Cluster b) {
         int aCount = a.getSize();

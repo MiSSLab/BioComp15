@@ -1,5 +1,7 @@
 package pl.edu.pg.eti.biocomp.utils;
 
+import pl.edu.pg.eti.biocomp.models.Point;
+
 import java.util.Arrays;
 import java.util.logging.Logger;
 
@@ -26,5 +28,28 @@ public class Matrix {
             }
         }
         return matrix;
+    }
+
+    public static Point findLowestValuePoint(double[][] matrix) {
+        int n = matrix.length;
+        Point minPoint = new Point(0, 0, Double.MAX_VALUE);
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j < n; j++) {
+                double distance = matrix[i][j];
+                if (distance < minPoint.getValue()) {
+                    minPoint = new Point(i, j, distance);
+                }
+            }
+        }
+        LOGGER.info("min point= " + minPoint);
+        return minPoint;
+    }
+
+    public static double[][] copy(double[][] matrix) {
+        double[][] newCopy = new double[matrix.length][];
+        for (int i = 0; i < matrix.length; i++) {
+            newCopy[i] = matrix[i].clone();
+        }
+        return newCopy;
     }
 }

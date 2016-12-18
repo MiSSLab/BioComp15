@@ -1,5 +1,6 @@
 package pl.edu.pg.eti.biocomp;
 
+import pl.edu.pg.eti.biocomp.algorithms.nj.NJ;
 import pl.edu.pg.eti.biocomp.algorithms.upgma.UPGMA;
 import pl.edu.pg.eti.biocomp.models.Cluster;
 import pl.edu.pg.eti.biocomp.utils.CSV;
@@ -19,8 +20,15 @@ public class App {
         String[][] data = CSV.load("resources/data1.matrix");
         double[][] matrix = Matrix.format(data);
         LOGGER.info(Arrays.deepToString(matrix));
+
         UPGMA upgma = new UPGMA(matrix);
-        Cluster cluster = upgma.run();
-        LOGGER.info(cluster.toString());
+        Cluster cluster1 = upgma.run();
+
+        NJ nj = new NJ(matrix);
+        Cluster cluster2 = nj.run();
+
+        LOGGER.info(cluster1.toString());
+        LOGGER.info(cluster2.toString());
+
     }
 }

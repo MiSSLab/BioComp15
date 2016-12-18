@@ -21,6 +21,12 @@ public class Cluster {
         labels = new ArrayList<>(Collections.singletonList(name));
     }
 
+    public Cluster(String name, List<Node> children) {
+        this.node = new Node(name);
+        node.getChidren().addAll(children);
+        labels = new ArrayList<>(Collections.singletonList(name));
+    }
+
     private Cluster(Node node, List<String> labels) {
         this.node = node;
         this.labels = labels;
@@ -38,7 +44,7 @@ public class Cluster {
         return cluster;
     }
 
-    private Node getNode() {
+    public Node getNode() {
         return node;
     }
 

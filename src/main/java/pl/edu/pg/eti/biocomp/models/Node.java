@@ -5,11 +5,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-class Node {
+public class Node {
     private List<Node> children;
     private String label;
 
-    Node(String label) {
+    public Node(String label) {
         this.label = label;
     }
 
