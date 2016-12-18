@@ -22,7 +22,7 @@ public class UPGMA {
         LOGGER.info("n= " + n);
         Cluster[] clusters = new Cluster[n];
         for (int i = 0; i < n; i++) {
-            clusters[i] = new Cluster(String.valueOf((char) ('a' + i)), .0d);
+            clusters[i] = new Cluster(String.valueOf((char) ('a' + i)));
         }
 
         while (clusters.length > 1) {

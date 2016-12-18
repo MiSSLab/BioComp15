@@ -15,18 +15,15 @@ public class Cluster {
 
     private Node node;
     private List<String> labels;
-    private double selfDistance;
 
-    public Cluster(String name, double selfDistance) {
+    public Cluster(String name) {
         node = new Node(name);
         labels = new ArrayList<>(Collections.singletonList(name));
-        this.selfDistance = selfDistance;
     }
 
-    private Cluster(Node node, List<String> labels, double selfDistance) {
+    private Cluster(Node node, List<String> labels) {
         this.node = node;
         this.labels = labels;
-        this.selfDistance = selfDistance;
     }
 
     public Cluster merge(Cluster b, double distance) {
@@ -36,7 +33,7 @@ public class Cluster {
         Node node = new Node(String.valueOf(distance));
         node.getChidren().add(this.getNode());
         node.getChidren().add(b.getNode());
-        Cluster cluster = new Cluster(node, labels, distance);
+        Cluster cluster = new Cluster(node, labels);
         LOGGER.info("New merged cluster: [" + cluster + "]");
         return cluster;
     }
@@ -53,14 +50,10 @@ public class Cluster {
         return labels.size();
     }
 
-    public double getSelfDistance() {
-        return selfDistance;
-    }
-
     @Override
     public String toString() {
-        return "[Labels=[" + Arrays.toString(labels.toArray()) + "]" +
-                "Nodes=[" + node + "]]";
+        return "Labels=[" + Arrays.toString(labels.toArray()) + "]" +
+                "Nodes=[" + node + "]";
     }
 
     public String stringLabels() {
