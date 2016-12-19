@@ -1,7 +1,7 @@
 package pl.edu.pg.eti.biocomp;
 
-import pl.edu.pg.eti.biocomp.algorithms.nj.NJ;
-import pl.edu.pg.eti.biocomp.algorithms.upgma.UPGMA;
+import pl.edu.pg.eti.biocomp.algorithms.NJ;
+import pl.edu.pg.eti.biocomp.algorithms.UPGMA;
 import pl.edu.pg.eti.biocomp.models.Tree;
 import pl.edu.pg.eti.biocomp.utils.CSV;
 import pl.edu.pg.eti.biocomp.utils.Log;

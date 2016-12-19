@@ -1,4 +1,4 @@
-package pl.edu.pg.eti.biocomp.algorithms.upgma;
+package pl.edu.pg.eti.biocomp.algorithms;
 
 import pl.edu.pg.eti.biocomp.models.Point;
 import pl.edu.pg.eti.biocomp.models.Tree;

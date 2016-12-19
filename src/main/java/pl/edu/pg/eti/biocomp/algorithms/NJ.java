@@ -1,4 +1,4 @@
-package pl.edu.pg.eti.biocomp.algorithms.nj;
+package pl.edu.pg.eti.biocomp.algorithms;
 
 import pl.edu.pg.eti.biocomp.models.Node;
 import pl.edu.pg.eti.biocomp.models.Point;
