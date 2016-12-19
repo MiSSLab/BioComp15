@@ -14,13 +14,13 @@ public class CSV {
     private static final Logger LOGGER = Log.getLogger();
 
     public static String[][] load(String fileName) {
-        LOGGER.info("Loading file: " + fileName);
+        LOGGER.entering(CSV.class.getCanonicalName(), "load", fileName);
         try {
             CSVReader reader = new CSVReader(new FileReader(fileName));
             List<String[]> entries = reader.readAll();
             String[][] matrix = new String[entries.size()][];
             matrix = entries.toArray(matrix);
-            LOGGER.info("Loaded data: " + Arrays.deepToString(matrix));
+            LOGGER.exiting(CSV.class.getCanonicalName(), "load", Arrays.deepToString(matrix));
             return matrix;
         } catch (IOException e) {
             LOGGER.log(Level.FINEST, "Exception when loading csv data", e);

@@ -7,6 +7,13 @@
 \usepackage{multirow}
 \usepackage{geometry}
 \usepackage{pdflscape}
+\usepackage{xcolor}
+\usepackage{listings}
+\lstset{basicstyle=\ttfamily,
+  showstringspaces=false,
+  commentstyle=\color{red},
+  keywordstyle=\color{blue}
+}
 
 \newcommand{\xmark}{\ding{55}}%
 
@@ -20,5 +27,36 @@ Subject 15: Distance phylogenetics: UPGMA and NJ}
 \newgeometry{margin=1.8cm}
 \maketitle
 
+\section{Algorithms}
+
+\subsection{UPGMA}
+\subsection{NJ}
+\subsection{Comparing topology}
+
+\section{Usage}
+Application can be downloaded from Github and compiled using \texttt{Maven}.
+\begin{lstlisting}[language=bash,caption={Building project}]
+git clone git@github.com:MiSSLab/BioComp15.git
+mvn package
+\end{lstlisting}
+Created Java archive can be run using \texttt{JRE}. Sample data can be found in directory \texttt{resources/}.
+\begin{lstlisting}[language=bash,caption={Running project using data1.matrix}]
+java -jar -Dfilename="resources/data1.matrix" \
+    target/distance-phylogenetics-jar-with-dependencies.jar
+\end{lstlisting}
+
+\section{Data formats}
+\subsection{Input}
+Application requires \texttt{CSV} data format and quadratic matrix of distances.
+
+\begin{lstlisting}[caption={Example data file content}]
+0,8,8,5,3
+8,0,3,8,8
+8,3,0,8,8
+5,8,8,0,5
+3,8,8,5,0
+\end{lstlisting}
+
+\subsection{Output}
 \end{document}
 

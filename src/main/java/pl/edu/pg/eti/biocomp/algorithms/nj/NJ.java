@@ -1,8 +1,8 @@
 package pl.edu.pg.eti.biocomp.algorithms.nj;
 
-import pl.edu.pg.eti.biocomp.models.Cluster;
 import pl.edu.pg.eti.biocomp.models.Node;
 import pl.edu.pg.eti.biocomp.models.Point;
+import pl.edu.pg.eti.biocomp.models.Tree;
 import pl.edu.pg.eti.biocomp.utils.Log;
 import pl.edu.pg.eti.biocomp.utils.Matrix;
 
@@ -16,15 +16,20 @@ public class NJ {
     private double[][] distances;
 
     public NJ(double[][] initialDistances) {
+        LOGGER.entering(this.getClass().getCanonicalName(), "NJ", initialDistances);
         this.distances = initialDistances;
     }
 
 
-    public Cluster run() {
+    /**
+     * despite the fact that NJ returns unrooted tree, here it is rooted with the root on the last-added artificial node
+     */
+    public Tree run() {
+        LOGGER.entering(this.getClass().getCanonicalName(), "run");
         int n = distances.length;
-        Cluster[] clusters = new Cluster[n];
+        Tree[] clusters = new Tree[n];
         for (int i = 0; i < n; i++) {
-            clusters[i] = new Cluster(String.valueOf((char) ('a' + i)));
+            clusters[i] = new Tree(String.valueOf((char) ('a' + i)));
         }
         int newTaxas = 0;
         int l = n;
@@ -34,10 +39,10 @@ public class NJ {
             Point point = Matrix.findLowestValuePoint(qMatrix);
             LOGGER.info("point= " + point.toString());
             int[] closests = point.positionAsArray();
-
             int f = closests[0], g = closests[1];
-            List<Node> children = Arrays.asList(clusters[f].getNode(), clusters[g].getNode());
-            Cluster cluster = new Cluster(String.valueOf((char) ('u' + newTaxas++)), children);
+            LOGGER.info("closest= [f:" + f + ", g:" + g + "]");
+            List<Node> children = Arrays.asList(clusters[f].getRootNode(), clusters[g].getRootNode());
+            Tree cluster = new Tree(String.valueOf((char) ('u' + newTaxas++)), children);
             LOGGER.info("cluster= " + cluster.toString());
             clusters[f] = cluster;
             clusters[g] = null;
@@ -59,18 +64,19 @@ public class NJ {
             LOGGER.info("distances= " + Arrays.deepToString(distances));
             l--;
         }
-
-
         List<Node> children = new ArrayList<>();
         for (int i = 0; i < n; i++) {
             if (clusters[i] != null) {
-                children.add(clusters[i].getNode());
+                children.add(clusters[i].getRootNode());
             }
         }
-        return new Cluster(String.valueOf((char) ('u' + newTaxas)), children);
+        Tree tree = new Tree(String.valueOf((char) ('u' + newTaxas)), children);
+        LOGGER.exiting(this.getClass().getCanonicalName(), "run", tree);
+        return tree;
     }
 
-    private double[][] calculateQMatrix(double[][] d, Cluster[] clusters, int l) {
+    private double[][] calculateQMatrix(double[][] d, Tree[] clusters, int l) {
+        LOGGER.entering(this.getClass().getCanonicalName(), "calculateQMatrix", new Object[]{Arrays.deepToString(d), Arrays.toString(clusters), l});
         int n = d.length;
         double[][] q = new double[n][n];
         for (int i = 0; i < n; i++) {
@@ -93,11 +99,12 @@ public class NJ {
                 }
             }
         }
+        LOGGER.exiting(this.getClass().getCanonicalName(), "calculateQMatrix", Arrays.deepToString(q));
         return q;
     }
 
     private double[] distancesToNewNode(double[][] d, int f, int g) {
-        LOGGER.entering(this.getClass().getCanonicalName(), "distanceFromNewNode", new Object[]{f, g});
+        LOGGER.entering(this.getClass().getCanonicalName(), "distanceFromNewNode", new Object[]{Arrays.deepToString(d), f, g});
         int n = d.length;
         double s1 = 0, s2 = 0;
         for (int k = 0; k < n; k++) {
@@ -108,7 +115,10 @@ public class NJ {
         }
         double fu = ((1 / 2) * d[f][g]) + (1 / (2 * (n - 2))) * (s1 - s2);
         double gu = d[f][g] - fu;
-        return new double[]{fu, gu};
+        double[] result = {fu, gu};
+
+        LOGGER.entering(this.getClass().getCanonicalName(), "distanceFromNewNode", result);
+        return result;
     }
 
     private double distanceFromNewNode(double[][] d, int f, int g, int k) {

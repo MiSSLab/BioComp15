@@ -1,7 +1,7 @@
 package pl.edu.pg.eti.biocomp.algorithms.upgma;
 
-import pl.edu.pg.eti.biocomp.models.Cluster;
 import pl.edu.pg.eti.biocomp.models.Point;
+import pl.edu.pg.eti.biocomp.models.Tree;
 import pl.edu.pg.eti.biocomp.utils.Log;
 import pl.edu.pg.eti.biocomp.utils.Matrix;
 
@@ -14,15 +14,17 @@ public class UPGMA {
     private double[][] distances;
 
     public UPGMA(double[][] initialDistances) {
+        LOGGER.entering(this.getClass().getCanonicalName(), "UPGMA", initialDistances);
         this.distances = initialDistances;
     }
 
-    public Cluster run() {
+    public Tree run() {
+        LOGGER.entering(this.getClass().getCanonicalName(), "run");
         int n = distances.length;
         LOGGER.info("n= " + n);
-        Cluster[] clusters = new Cluster[n];
+        Tree[] clusters = new Tree[n];
         for (int i = 0; i < n; i++) {
-            clusters[i] = new Cluster(String.valueOf((char) ('a' + i)));
+            clusters[i] = new Tree(String.valueOf((char) ('a' + i)));
         }
 
         while (clusters.length > 1) {
@@ -39,7 +41,8 @@ public class UPGMA {
     }
 
 
-    private double[][] getClusterDistances(Cluster[] clusters) {
+    private double[][] getClusterDistances(Tree[] clusters) {
+        LOGGER.entering(this.getClass().getCanonicalName(), "getClusterDistances", Arrays.toString(clusters));
         int n = clusters.length;
         double[][] clusterDistances = Matrix.initQuadraticWithValue(n, Double.MAX_VALUE);
         for (int i = 0; i < n; i++) {
@@ -47,12 +50,13 @@ public class UPGMA {
                 clusterDistances[i][j] = distance(clusters[i], clusters[j]);
             }
         }
-        LOGGER.info("cluster distances(n=" + n + ")= " + Arrays.deepToString(clusterDistances));
+        LOGGER.exiting(this.getClass().getCanonicalName(), "getClusterDistances", Arrays.deepToString(clusterDistances));
         return clusterDistances;
     }
 
 
-    private double distance(Cluster a, Cluster b) {
+    private double distance(Tree a, Tree b) {
+        LOGGER.entering(this.getClass().getCanonicalName(), "distance", new Object[]{a, b});
         int aCount = a.getSize();
         int bCount = b.getSize();
         double distance = 0;
@@ -62,7 +66,7 @@ public class UPGMA {
             }
         }
         distance /= (aCount * bCount);
-        LOGGER.info("Distance between cluster " + a.stringLabels() + " and " + b.stringLabels() + "= " + distance);
+        LOGGER.exiting(this.getClass().getCanonicalName(), "distance", distance);
         return distance;
 
     }
@@ -73,16 +77,18 @@ public class UPGMA {
         return c - 'a';
     }
 
-    private Cluster[] mergeClusters(Cluster[] clusters, Point minPoint) {
+    private Tree[] mergeClusters(Tree[] clusters, Point minPoint) {
+        LOGGER.entering(this.getClass().getCanonicalName(), "mergeClusters", new Object[]{Arrays.toString(clusters), minPoint});
         int n = clusters.length;
         List<Integer> toMerge = minPoint.positionAsList();
-        Cluster[] newClusters = new Cluster[n - 1];
+        Tree[] newClusters = new Tree[n - 1];
         newClusters[0] = clusters[toMerge.get(0)].merge(clusters[toMerge.get(1)], minPoint.getValue());
         for (int i = 0, j = 1; i < n; i++) {
             if (!toMerge.contains(i)) {
                 newClusters[j++] = clusters[i];
             }
         }
+        LOGGER.entering(this.getClass().getCanonicalName(), "mergeClusters", Arrays.toString(newClusters));
         return newClusters;
     }
 }

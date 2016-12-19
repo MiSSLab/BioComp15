@@ -9,11 +9,11 @@ public class Node {
     private List<Node> children;
     private String label;
 
-    public Node(String label) {
+    Node(String label) {
         this.label = label;
     }
 
-    public List<Node> getChidren() {
+    public List<Node> getChildren() {
         if (children == null) {
             children = new ArrayList<>();
         }
@@ -22,7 +22,7 @@ public class Node {
 
     @Override
     public String toString() {
-        return label + (getChidren().size() > 0 ? ": " + Arrays.toString(getChidren().toArray()) : "");
+        return "[" + label + (getChildren().size() > 0 ? ":" + Arrays.toString(getChildren().toArray()) : "") + "]";
     }
 
     public String getLabel() {

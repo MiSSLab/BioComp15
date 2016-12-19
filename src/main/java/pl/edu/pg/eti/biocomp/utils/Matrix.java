@@ -21,16 +21,19 @@ public class Matrix {
     }
 
     public static double[][] initQuadraticWithValue(int size, double value) {
+        LOGGER.entering(Matrix.class.getCanonicalName(), "initQuadraticWithValue", new Object[]{size, value});
         double[][] matrix = new double[size][size];
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix.length; j++) {
                 matrix[i][j] = value;
             }
         }
+        LOGGER.exiting(Matrix.class.getCanonicalName(), "initQuadraticWithValue", Arrays.deepToString(matrix));
         return matrix;
     }
 
     public static Point findLowestValuePoint(double[][] matrix) {
+        LOGGER.entering(Matrix.class.getCanonicalName(), "findLowestValuePoint", matrix);
         int n = matrix.length;
         Point minPoint = new Point(0, 0, Double.MAX_VALUE);
         for (int i = 0; i < n; i++) {
@@ -41,15 +44,17 @@ public class Matrix {
                 }
             }
         }
-        LOGGER.info("min point= " + minPoint);
+        LOGGER.exiting(Matrix.class.getCanonicalName(), "findLowestValuePoint", minPoint);
         return minPoint;
     }
 
     public static double[][] copy(double[][] matrix) {
+        LOGGER.entering(Matrix.class.getCanonicalName(), "copy", matrix);
         double[][] newCopy = new double[matrix.length][];
         for (int i = 0; i < matrix.length; i++) {
             newCopy[i] = matrix[i].clone();
         }
+        LOGGER.exiting(Matrix.class.getCanonicalName(), "copy", newCopy);
         return newCopy;
     }
 }

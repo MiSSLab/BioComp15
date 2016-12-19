@@ -2,114 +2,86 @@ package pl.edu.pg.eti.biocomp.utils;
 
 import pl.edu.pg.eti.biocomp.models.Node;
 
-import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class TreePrinter {
 
-    private static PrintStream printStream = System.out;
+    private static final Logger LOGGER = Log.getLogger();
 
-    public static void printNode(Node root) {
-        int maxLevel = TreePrinter.maxLevel(root);
-        printNodeInternal(Collections.singletonList(root), 1, maxLevel);
+    public static void print(String header, Node node) {
+        LOGGER.entering(TreePrinter.class.getCanonicalName(), "print", node);
+        StringBuilder sb = new StringBuilder();
+        sb = renderNode(node, 0, sb, false);
+        char[][] matrix = clearUp(sb);
+        System.out.println(header);
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[i].length; j++) {
+                System.out.print(matrix[i][j]);
+            }
+        }
     }
 
-    private static void printNodeInternal(List<Node> nodes, int level, int maxLevel) {
-        if (nodes.isEmpty() || TreePrinter.isAllElementsNull(nodes))
-            return;
-        int floor = maxLevel - level;
-        int endgeLines = (int) Math.pow(2, (Math.max(floor - 1, 0)));
-        int firstSpaces = (int) Math.pow(2, (floor)) - 1;
-        int betweenSpaces = (int) Math.pow(2, (floor + 1)) - 1;
-        TreePrinter.printWhitespaces(firstSpaces);
-        List<Node> newNodes = new ArrayList<Node>();
-        for (Node node : nodes) {
-            if (node != null) {
-                printStream.print(node.getLabel());
-                List<Node> children = node.getChidren();
-                switch (children.size()) {
-                    case 3:
-                        newNodes.add(node.getChidren().get(0));
-                        newNodes.add(node.getChidren().get(1));
-                        newNodes.add(node.getChidren().get(2));
-                        break;
-                    case 2:
-                        newNodes.add(node.getChidren().get(0));
-                        newNodes.add(node.getChidren().get(1));
-                        break;
-                    case 1:
-                        newNodes.add(node.getChidren().get(0));
-                        break;
-                    default:
-                        break;
-                }
+    private static StringBuilder renderNode(Node node, int level, StringBuilder sb, boolean isLast) {
+        indent(sb, level, isLast).append("[").append(node.getLabel()).append("]\n");
+        List<Node> list = node.getChildren();
+        for (int i = 0; i < list.size(); i++) {
+            boolean last = ((i + 1) == list.size());
+            if (list.get(i).getChildren().size() > 0) {
+                renderNode(list.get(i), level + 1, sb, last);
             } else {
-                newNodes.add(null);
-                newNodes.add(null);
-                printStream.print(" ");
+                renderLeaf(list.get(i), level + 1, sb, last);
             }
-            TreePrinter.printWhitespaces(betweenSpaces);
         }
-        printStream.println("");
-        for (int i = 1; i <= endgeLines; i++) {
-            for (int j = 0; j < nodes.size(); j++) {
-                TreePrinter.printWhitespaces(firstSpaces - i);
-                if (nodes.get(j) == null) {
-                    TreePrinter.printWhitespaces(endgeLines + endgeLines + i + 1);
-                    continue;
-                }
-                if (nodes.get(j).getChidren().size() > 0 && nodes.get(j).getChidren().get(0) != null) {
-                    printStream.print("/");
-                } else {
-                    TreePrinter.printWhitespaces(1);
-                }
-                TreePrinter.printWhitespaces(i + i - 1);
-                if (nodes.get(j).getChidren().size() > 1 && nodes.get(j).getChidren().get(1) != null) {
-                    printStream.print("\\");
-                } else {
-                    TreePrinter.printWhitespaces(1);
-                }
-                TreePrinter.printWhitespaces(endgeLines + endgeLines - i);
-                if (nodes.get(j).getChidren().size() > 2 && nodes.get(j).getChidren().get(2) != null) {
-                    printStream.print("\\");
+        return sb;
+    }
+
+    private static StringBuilder renderLeaf(Node node, int level, StringBuilder sb, boolean isLast) {
+        return indent(sb, level, isLast).append("--- [").append(node.getLabel()).append("]\n");
+    }
+
+    private static StringBuilder indent(StringBuilder sb, int level, boolean isLast) {
+        for (int i = 1; i < level; i++) {
+            sb.append("|  ");
+        }
+        if (level > 0) {
+            sb.append(isLast ? "`-" : "|-");
+        }
+        return sb;
+    }
+
+    private static char[][] clearUp(StringBuilder sb) {
+        final String[] rows = sb.toString().split("\n");
+        final int totalRows = rows.length;
+        int totalColumns = 0;
+        for (String r : rows) {
+            if (r.length() > totalColumns) {
+                totalColumns = r.length() + 1;
+            }
+        }
+        final char[][] matrix = new char[totalRows][totalColumns];
+        int i = 0, j = 0;
+        for (String row : rows) {
+            row = row + "\n";
+            final char[] elements = row.toCharArray();
+            for (final char element : elements) {
+                matrix[i][j] = element;
+                j++;
+            }
+            i++;
+            j = 0;
+        }
+        for (i = 0; i < totalRows; i++) {
+            for (j = 0; j < totalColumns; j++) {
+                if (matrix[i][j] == '`') {
+                    int k = 1;
+                    while (k + i < totalRows && matrix[k + i][j] == '|') {
+                        matrix[k + i][j] = ' ';
+                        k++;
+                    }
                 }
             }
-            printStream.println("");
         }
-        printNodeInternal(newNodes, level + 1, maxLevel);
+        return matrix;
     }
-
-    private static void printWhitespaces(int count) {
-        for (int i = 0; i < count; i++)
-            printStream.print(" ");
-    }
-
-    private static int maxLevel(Node node) {
-        if (node == null)
-            return 0;
-        List<Node> children = node.getChidren();
-        switch (children.size()) {
-            case 0:
-                return 1;
-            case 1:
-                return TreePrinter.maxLevel(children.get(0)) + 1;
-            case 2:
-                return Math.max(TreePrinter.maxLevel(children.get(0)), TreePrinter.maxLevel(children.get(1))) + 1;
-            case 3:
-                return Math.max(Math.max(TreePrinter.maxLevel(children.get(0)), TreePrinter.maxLevel(children.get(1))), TreePrinter.maxLevel(children.get(2))) + 1;
-            default:
-                return 1;
-        }
-    }
-
-    private static boolean isAllElementsNull(List list) {
-        for (Object object : list) {
-            if (object != null)
-                return false;
-        }
-        return true;
-    }
-
 }

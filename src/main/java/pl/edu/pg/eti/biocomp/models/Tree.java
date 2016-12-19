@@ -9,43 +9,43 @@ import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 
-public class Cluster {
+public class Tree {
 
     private static final Logger LOGGER = Log.getLogger();
 
-    private Node node;
+    private Node rootNode;
     private List<String> labels;
 
-    public Cluster(String name) {
-        node = new Node(name);
+    public Tree(String name) {
+        rootNode = new Node(name);
         labels = new ArrayList<>(Collections.singletonList(name));
     }
 
-    public Cluster(String name, List<Node> children) {
-        this.node = new Node(name);
-        node.getChidren().addAll(children);
+    public Tree(String name, List<Node> children) {
+        this.rootNode = new Node(name);
+        rootNode.getChildren().addAll(children);
         labels = new ArrayList<>(Collections.singletonList(name));
     }
 
-    private Cluster(Node node, List<String> labels) {
-        this.node = node;
+    private Tree(Node rootNode, List<String> labels) {
+        this.rootNode = rootNode;
         this.labels = labels;
     }
 
-    public Cluster merge(Cluster b, double distance) {
-        LOGGER.info("Merging clusters [" + this.toString() + "] and [" + b.toString() + "]");
+    public Tree merge(Tree b, double distance) {
+        LOGGER.info("Merging clusters: " + this + " and " + b);
         List<String> labels = new ArrayList<>(this.getLabels());
         labels.addAll(b.getLabels());
         Node node = new Node(String.valueOf(distance));
-        node.getChidren().add(this.getNode());
-        node.getChidren().add(b.getNode());
-        Cluster cluster = new Cluster(node, labels);
-        LOGGER.info("New merged cluster: [" + cluster + "]");
-        return cluster;
+        node.getChildren().add(this.getRootNode());
+        node.getChildren().add(b.getRootNode());
+        Tree tree = new Tree(node, labels);
+        LOGGER.info("New tree: " + tree);
+        return tree;
     }
 
-    public Node getNode() {
-        return node;
+    public Node getRootNode() {
+        return rootNode;
     }
 
     public List<String> getLabels() {
@@ -58,8 +58,7 @@ public class Cluster {
 
     @Override
     public String toString() {
-        return "Labels=[" + Arrays.toString(labels.toArray()) + "]" +
-                "Nodes=[" + node + "]";
+        return "[" + Arrays.toString(labels.toArray()) + ":" + rootNode + "]";
     }
 
     public String stringLabels() {

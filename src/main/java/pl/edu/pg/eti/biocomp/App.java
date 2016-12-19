@@ -2,7 +2,7 @@ package pl.edu.pg.eti.biocomp;
 
 import pl.edu.pg.eti.biocomp.algorithms.nj.NJ;
 import pl.edu.pg.eti.biocomp.algorithms.upgma.UPGMA;
-import pl.edu.pg.eti.biocomp.models.Cluster;
+import pl.edu.pg.eti.biocomp.models.Tree;
 import pl.edu.pg.eti.biocomp.utils.CSV;
 import pl.edu.pg.eti.biocomp.utils.Log;
 import pl.edu.pg.eti.biocomp.utils.Matrix;
@@ -24,14 +24,15 @@ public class App {
         LOGGER.info(Arrays.deepToString(matrix));
 
         UPGMA upgma = new UPGMA(matrix);
-        Cluster cluster1 = upgma.run();
+        Tree cluster1 = upgma.run();
 
         NJ nj = new NJ(matrix);
-        Cluster cluster2 = nj.run();
+        Tree cluster2 = nj.run();
 
         LOGGER.info(cluster1.toString());
-        TreePrinter.printNode(cluster1.getNode());
+        TreePrinter.print("\nUPGMA(" + fileName +")",cluster1.getRootNode());
         LOGGER.info(cluster2.toString());
+        TreePrinter.print("\nNJ(" + fileName +")",cluster2.getRootNode());
 
     }
 }

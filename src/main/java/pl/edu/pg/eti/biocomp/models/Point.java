@@ -28,6 +28,6 @@ public class Point {
 
     @Override
     public String toString() {
-        return "[" + x + ", " + y + "]=" + value;
+        return "[" + x + ", " + y + ":" + value + "]";
     }
 }
