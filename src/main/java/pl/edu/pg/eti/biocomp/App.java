@@ -30,9 +30,8 @@ public class App {
         Tree cluster2 = nj.run();
 
         LOGGER.info(cluster1.toString());
-        TreePrinter.print("\nUPGMA(" + fileName +")",cluster1.getRootNode());
+        TreePrinter.print("\nUPGMA(" + fileName + ")", cluster1.getRootNode());
         LOGGER.info(cluster2.toString());
-        TreePrinter.print("\nNJ(" + fileName +")",cluster2.getRootNode());
-
+        TreePrinter.print("\nNJ(" + fileName + ")", cluster2.getRootNode());
     }
 }
