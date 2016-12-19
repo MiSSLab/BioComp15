@@ -20,7 +20,6 @@ public class NJ {
         this.distances = initialDistances;
     }
 
-
     /**
      * despite the fact that NJ returns unrooted tree, here it is rooted with the root on the last-added artificial node
      */
@@ -118,7 +117,7 @@ public class NJ {
         double gu = d[f][g] - fu;
         double[] result = {fu, gu};
 
-        LOGGER.entering(this.getClass().getCanonicalName(), "distanceFromNewNode", result);
+        LOGGER.exiting(this.getClass().getCanonicalName(), "distanceFromNewNode", result);
         return result;
     }
 
