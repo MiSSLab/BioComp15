@@ -9,10 +9,10 @@ public class TreePrinter {
 
     private static final Logger LOGGER = Log.getLogger();
 
-    public static void print(String header, Node node) {
-        LOGGER.entering(TreePrinter.class.getCanonicalName(), "print", node);
+    public static void print(String header, Node rootNode) {
+        LOGGER.entering(TreePrinter.class.getCanonicalName(), "print", rootNode);
         StringBuilder sb = new StringBuilder();
-        sb = renderNode(node, 0, sb, false);
+        sb = renderNode(rootNode, 0, sb, false);
         char[][] matrix = clearUp(sb);
         System.out.println(header);
         for (int i = 0; i < matrix.length; i++) {
