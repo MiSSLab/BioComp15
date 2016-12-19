@@ -103,6 +103,7 @@ public class NJ {
         return q;
     }
 
+    @SuppressWarnings("unused")
     private double[] distancesToNewNode(double[][] d, int f, int g) {
         LOGGER.entering(this.getClass().getCanonicalName(), "distanceFromNewNode", new Object[]{Arrays.deepToString(d), f, g});
         int n = d.length;

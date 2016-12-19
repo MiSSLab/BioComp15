@@ -15,9 +15,9 @@ public class TreePrinter {
         sb = renderNode(rootNode, 0, sb, false);
         char[][] matrix = clearUp(sb);
         System.out.println(header);
-        for (int i = 0; i < matrix.length; i++) {
-            for (int j = 0; j < matrix[i].length; j++) {
-                System.out.print(matrix[i][j]);
+        for (char[] aMatrix : matrix) {
+            for (char anAMatrix : aMatrix) {
+                System.out.print(anAMatrix);
             }
         }
     }

@@ -60,8 +60,4 @@ public class Tree {
     public String toString() {
         return "[" + Arrays.toString(labels.toArray()) + ":" + rootNode + "]";
     }
-
-    public String stringLabels() {
-        return Arrays.toString(labels.toArray());
-    }
 }
