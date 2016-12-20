@@ -36,8 +36,8 @@ public class TreePrinter {
         return sb;
     }
 
-    private static StringBuilder renderLeaf(Node node, int level, StringBuilder sb, boolean isLast) {
-        return indent(sb, level, isLast).append("--- [").append(node.getLabel()).append("]\n");
+    private static void renderLeaf(Node node, int level, StringBuilder sb, boolean isLast) {
+        indent(sb, level, isLast).append("--- [").append(node.getLabel()).append("]\n");
     }
 
     private static StringBuilder indent(StringBuilder sb, int level, boolean isLast) {

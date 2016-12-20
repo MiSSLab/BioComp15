@@ -8,8 +8,8 @@ public class Labels {
 
     public static String next(String label) {
 
-        String nextCharSeqStr = null;
-        char[] charSeqArr = null;
+        String nextCharSeqStr;
+        char[] charSeqArr;
         boolean isResetAllChar = false;
         boolean isResetAfterIndex = false;
         Integer resetAfterIndex = 0;
@@ -27,8 +27,6 @@ public class Labels {
                     if (index == 0) {
                         charSeqArr = Arrays.copyOf(charSeqArr, charSeqLen + 1);
                         isResetAllChar = true;
-                    } else {
-                        continue;
                     }
                 } else {
                     char nextCharAtIndex = (char) (charAtIndex + 1);

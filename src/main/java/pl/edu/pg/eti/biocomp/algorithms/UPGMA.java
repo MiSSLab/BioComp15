@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 
 public class UPGMA {
     private static final Logger LOGGER = Log.getLogger();
-    private Matrix distances;
+    private final Matrix distances;
 
     public UPGMA(Matrix initialDistances) {
         LOGGER.entering(this.getClass().getCanonicalName(), "UPGMA", initialDistances);

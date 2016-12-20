@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 
 public class NJ {
     private static final Logger LOGGER = Log.getLogger();
-    private Matrix distances;
+    private final Matrix distances;
 
     public NJ(Matrix initialDistances) {
         LOGGER.entering(this.getClass().getCanonicalName(), "NJ", initialDistances);

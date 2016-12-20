@@ -4,9 +4,9 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Point {
-    private int x;
-    private int y;
-    private double value;
+    private final int x;
+    private final int y;
+    private final double value;
 
     public Point(int x, int y, double value) {
         this.x = x;

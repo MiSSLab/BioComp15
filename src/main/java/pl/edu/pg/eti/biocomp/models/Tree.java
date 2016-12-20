@@ -13,8 +13,8 @@ public class Tree {
 
     private static final Logger LOGGER = Log.getLogger();
 
-    private Node rootNode;
-    private List<String> labels;
+    private final Node rootNode;
+    private final List<String> labels;
 
     public Tree(String name) {
         rootNode = new Node(name);

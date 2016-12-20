@@ -104,14 +104,4 @@ public class Matrix {
         LOGGER.exiting(Matrix.class.getCanonicalName(), "findLowestValuePoint", minPoint);
         return minPoint;
     }
-
-    public static double[][] copy(double[][] matrix) {
-        LOGGER.entering(Matrix.class.getCanonicalName(), "copy", matrix);
-        double[][] newCopy = new double[matrix.length][];
-        for (int i = 0; i < matrix.length; i++) {
-            newCopy[i] = matrix[i].clone();
-        }
-        LOGGER.exiting(Matrix.class.getCanonicalName(), "copy", newCopy);
-        return newCopy;
-    }
 }
