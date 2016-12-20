@@ -29,12 +29,40 @@ Subject 15: Distance phylogenetics: UPGMA and NJ}
 
 \section{Algorithms}
 
-\subsection{UPGMA}
+\subsection{UPGMA (ang. Unweighted Pair Group Method with Arithmetic Mean)}
+Data: ultrametric matrix \textit{d} for set \textit{L}.
+\begin{lstlisting}[caption={UPGMA pseudocode}]
+clusters[|L|]
+while (clusters.length > 1):
+    calculate distances between clusters
+        (sum of distances between cluster members
+            divided by product of cluster cardinalities)
+    find the lowest distance
+    merge the closest clusters
+\end{lstlisting}
+
 \subsection{NJ}
+Data: ultrametric matrix \textit{d} for set \textit{L}.\\ \\
+Q - matrix: $ Q(i,j) = (n-2)d(i,j) - \sum_{k=1}^{n} d(i,k) - \sum_{k=1}^{n} d(j,k)$ \\ \\
+Distance from the pair members to the new node: \\ \\
+$d'(f,u) = \frac{1}{2}d(f,g) + \frac{1}{2(n-2)}(\sum_{k=1}^n d(f,k) - \sum_{k=1}^n d(g,k))$ \\ \\
+$d(g,u) = d(f,g) - d'(f,u)$
+
+\begin{lstlisting}[caption={NJ pseudocode}]
+clusters[|L|]
+while (number of clusters > 2):
+    calculate Q-matrix
+    find the lowest q-distance
+    merge the q-closest clusters
+    update distances
+merge last 2 clusters
+\end{lstlisting}
+
+
 \subsection{Comparing topology}
 
 \section{Usage}
-Application can be downloaded from Github and compiled using \texttt{Maven}.
+Program was developed in Java programming language without any external libraries. All sources are available on Github and compiled using \texttt{Maven}.
 \begin{lstlisting}[language=bash,caption={Building project}]
 git clone git@github.com:MiSSLab/BioComp15.git
 mvn package
@@ -59,5 +87,33 @@ a,b,c,d,e
 \end{lstlisting}
 Labels in header has to be lexicographically sorted, dense vector with every column matching \texttt{"[a-z]+"}.
 \subsection{Output}
+Resulting trees are printed in \texttt{ASCII}-art to the \texttt{STDOUT}.
+\begin{lstlisting}[caption={UPGMA output}]
+UPGMA(resources/data2.matrix)
+[[33.0]]
+|-[[28.0]]
+|  |---- [[c]]
+|  `---- [[d]]
+`-[[22.0]]
+   |-[[17.0]]
+   |  |---- [[a]]
+   |  `---- [[b]]
+   `---- [[e]]
+\end{lstlisting}
+
+
+Despite the fact that NJ returns unrooted tree it is presented as a rooted one with particular node choosen as a root.
+\begin{lstlisting}[caption={NJ output}]
+NJ(resources/data2.matrix)
+[[g]]
+|---- [4.75-<-[a]]
+|-[7.25-<-[f]]
+|  |---- [11.0-<-[c]]
+|  `---- [17.0-<-[d]]
+`-[4.75-<-[h]]
+   |---- [6.75-<-[b]]
+   `---- [14.25-<-[e]]
+\end{lstlisting}
+
 \end{document}
 

@@ -9,8 +9,4 @@ java -jar -Dfilename="resources/data1.matrix" target/distance-phylogenetics-jar-
 ```
 
 ### TODO
-* Dokumentacja (plik PDF) powinna zawierać krótkie informacje na temat:
-    - dane wyjściowe wyjściowych (format i inne wymagania)
-    - zastosowanych algorytmów (opis algorytmu) oraz technologii (biblioteki) 
-* ! porównywanie topologii
-    - wymyślić... 
+* ! porównywanie topologii  wymyślić... i opisać w pdf 

@@ -1,5 +1,6 @@
 package pl.edu.pg.eti.biocomp;
 
+import pl.edu.pg.eti.biocomp.algorithms.ComparableRepresentation;
 import pl.edu.pg.eti.biocomp.algorithms.Comparator;
 import pl.edu.pg.eti.biocomp.algorithms.NJ;
 import pl.edu.pg.eti.biocomp.algorithms.UPGMA;

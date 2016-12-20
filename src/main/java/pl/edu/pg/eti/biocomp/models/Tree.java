@@ -56,13 +56,6 @@ public class Tree {
         return labels.size();
     }
 
-    public double[][] getAdjacencyMatrix() {
-        int n = rootNode.getNumberOfNodes();
-
-        double[][] matrix = Matrix.initQuadraticWithValue(n, .0d);
-        return null;
-    }
-
     @Override
     public String toString() {
         return rootNode.toString();
