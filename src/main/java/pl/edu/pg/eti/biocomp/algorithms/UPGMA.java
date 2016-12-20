@@ -11,16 +11,16 @@ import java.util.logging.Logger;
 
 public class UPGMA {
     private static final Logger LOGGER = Log.getLogger();
-    private double[][] distances;
+    private Matrix distances;
 
-    public UPGMA(double[][] initialDistances) {
+    public UPGMA(Matrix initialDistances) {
         LOGGER.entering(this.getClass().getCanonicalName(), "UPGMA", initialDistances);
         this.distances = initialDistances;
     }
 
     public Tree run() {
         LOGGER.entering(this.getClass().getCanonicalName(), "run");
-        int n = distances.length;
+        int n = distances.getData().length;
         LOGGER.info("n= " + n);
         Tree[] clusters = new Tree[n];
         for (int i = 0; i < n; i++) {
@@ -62,7 +62,7 @@ public class UPGMA {
         double distance = 0;
         for (String aLabel : a.getLabels()) {
             for (String bLabel : b.getLabels()) {
-                distance += distances[charToPosition(aLabel)][charToPosition(bLabel)];
+                distance += distances.getData()[labelToPosition(aLabel)][labelToPosition(bLabel)];
             }
         }
         distance /= (aCount * bCount);
@@ -72,9 +72,15 @@ public class UPGMA {
     }
 
 
-    private int charToPosition(String label) {
-        char c = label.charAt(0);
-        return c - 'a';
+    private int labelToPosition(String label) {
+        String[] header = distances.getHeader();
+        for (int i = 0; i < header.length; i++) {
+            String colName = header[i];
+            if (colName.equals(label)) {
+                return i;
+            }
+        }
+        throw new RuntimeException("Something went wrong with header");
     }
 
     private Tree[] mergeClusters(Tree[] clusters, Point minPoint) {

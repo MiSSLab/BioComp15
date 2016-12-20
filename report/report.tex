@@ -50,13 +50,14 @@ java -jar -Dfilename="resources/data1.matrix" \
 Application requires \texttt{CSV} data format and quadratic matrix of distances.
 
 \begin{lstlisting}[caption={Example data file content}]
+a,b,c,d,e
 0,8,8,5,3
 8,0,3,8,8
 8,3,0,8,8
 5,8,8,0,5
 3,8,8,5,0
 \end{lstlisting}
-
+Labels in header has to be lexicographically sorted, dense vector with every column matching \texttt{"[a-z]+"}.
 \subsection{Output}
 \end{document}
 

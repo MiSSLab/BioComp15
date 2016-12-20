@@ -56,7 +56,7 @@ public class TreePrinter {
         int totalColumns = 0;
         for (String r : rows) {
             if (r.length() > totalColumns) {
-                totalColumns = r.length() + 1;
+                totalColumns = r.length() + 2;
             }
         }
         final char[][] matrix = new char[totalRows][totalColumns];

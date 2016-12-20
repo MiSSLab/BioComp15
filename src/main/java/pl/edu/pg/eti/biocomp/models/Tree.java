@@ -2,9 +2,9 @@ package pl.edu.pg.eti.biocomp.models;
 
 
 import pl.edu.pg.eti.biocomp.utils.Log;
+import pl.edu.pg.eti.biocomp.utils.Matrix;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
@@ -56,8 +56,15 @@ public class Tree {
         return labels.size();
     }
 
+    public double[][] getAdjacencyMatrix() {
+        int n = rootNode.getNumberOfNodes();
+
+        double[][] matrix = Matrix.initQuadraticWithValue(n, .0d);
+        return null;
+    }
+
     @Override
     public String toString() {
-        return "[" + Arrays.toString(labels.toArray()) + ":" + rootNode + "]";
+        return rootNode.toString();
     }
 }

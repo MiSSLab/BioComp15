@@ -1,5 +1,6 @@
 package pl.edu.pg.eti.biocomp;
 
+import pl.edu.pg.eti.biocomp.algorithms.Comparator;
 import pl.edu.pg.eti.biocomp.algorithms.NJ;
 import pl.edu.pg.eti.biocomp.algorithms.UPGMA;
 import pl.edu.pg.eti.biocomp.models.Tree;
@@ -19,19 +20,22 @@ public class App {
         LOGGER.log(Level.CONFIG, "CLI arguments", args);
 
         String fileName = System.getProperty("filename");
-        String[][] data = CSV.load(fileName);
-        double[][] matrix = Matrix.format(data);
-        LOGGER.info(Arrays.deepToString(matrix));
+        Matrix matrix = CSV.load(fileName);
+        LOGGER.info(Arrays.deepToString(matrix.getData()));
+
 
         UPGMA upgma = new UPGMA(matrix);
-        Tree cluster1 = upgma.run();
+        Tree upgmaTree = upgma.run();
 
         NJ nj = new NJ(matrix);
-        Tree cluster2 = nj.run();
+        Tree njTree = nj.run();
 
-        LOGGER.info(cluster1.toString());
-        TreePrinter.print("\nUPGMA(" + fileName + ")", cluster1.getRootNode());
-        LOGGER.info(cluster2.toString());
-        TreePrinter.print("\nNJ(" + fileName + ")", cluster2.getRootNode());
+        LOGGER.info(upgmaTree.toString());
+        TreePrinter.print("\nUPGMA(" + fileName + ")", upgmaTree.getRootNode());
+        LOGGER.info(njTree.toString());
+        TreePrinter.print("\nNJ(" + fileName + ")", njTree.getRootNode());
+
+        boolean areEqual = Comparator.areTopologicallyEqual(upgmaTree, njTree);
+        System.out.printf("Results are%s topologically equal", areEqual ? "" : " not");
     }
 }
