@@ -43,7 +43,7 @@ public class Matrix {
         data = initQuadraticWithValue(tmpData.length - 1, Double.NaN);
         for (int i = 0; i < tmpData.length; i++) {
             for (int j = 0; j < tmpData.length; j++) {
-                if (i != min && i != max && j != min && j != max) {
+                if (i != min && i != max || j != min && j != max) {
                     if (i > max && j > max) {
                         data[i - 2][j - 2] = tmpData[i][j];
                     } else if (i > max) {
@@ -95,9 +95,11 @@ public class Matrix {
         Point minPoint = new Point(0, 0, Double.MAX_VALUE);
         for (int i = 0; i < n; i++) {
             for (int j = i + 1; j < n; j++) {
-                double distance = matrix[i][j];
-                if (distance < minPoint.getValue()) {
-                    minPoint = new Point(i, j, distance);
+                if (i != j) {
+                    double distance = matrix[i][j];
+                    if (distance < minPoint.getValue()) {
+                        minPoint = new Point(i, j, distance);
+                    }
                 }
             }
         }

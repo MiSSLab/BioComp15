@@ -12,7 +12,7 @@ public class Log {
 
     static {
         try {
-            InputStream inputStream = Log.class.getClassLoader().getResourceAsStream("logging/props.properties");
+            InputStream inputStream = Log.class.getClassLoader().getResourceAsStream("logging.properties");
             logManager.readConfiguration(inputStream);
         } catch (IOException exception) {
             LOGGER.log(Level.SEVERE, "Error in loading configuration", exception);
