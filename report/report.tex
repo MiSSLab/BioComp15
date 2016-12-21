@@ -153,7 +153,7 @@ while (number of clusters > 2):
 merge last 2 clusters
 \end{lstlisting}
 
-\subsection{Creaing adjacency matrix}
+\subsection{Creating adjacency matrix}
 Both rooted and unrooted trees created via UPGMA and NJ algorithms can be transformed to adjacency matrix. The algorithm for that is as follows:
 \begin{lstlisting}[caption={Tree to adjacency matrix.}]
 function walk(Node rootNode):
@@ -190,8 +190,8 @@ Trees in canonical form can be easily compared using the following algorithm.
 \begin{lstlisting}[caption={Comparing trees.}]
 function equals(Node aNode, Node bNode):
     if (aNode.children.size = bNode.children.size):
-        if (aNode.children.size == 0 && .children.size  == 0) {
-            if (aNode.label = bNode.label) {
+        if (aNode.children.size == 0 && .children.size  == 0):
+            if (aNode.label = bNode.label):
                 return true
             else:
                 return false
@@ -202,8 +202,8 @@ function equals(Node aNode, Node bNode):
                 for (bChild : bNode.children):
                     boolean equals = equals(aChild, bChild)
                     comparisons2.add(equals)
-                comparisons.add(comparisons2.reduce(or))
-            return comparisons.reduce(and)
+                comparisons.add(comparisons2.reduce(OR))
+            return comparisons.reduce(AND)
     else:
         return false;
 \end{lstlisting}
