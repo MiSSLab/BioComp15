@@ -9,4 +9,10 @@ java -jar -Dfilename="resources/data1.matrix" target/distance-phylogenetics-jar-
 ```
 
 ### TODO
-* ! porównywanie topologii  wymyślić... i opisać w pdf 
+* Refaktoring 
+    - poprawienie etykietowania
+    - poprawienie logowania w AdjacencyMatrix i Comparatorze
+    - zrobienie logowania, żeby można było przekazywać -D
+    - przetłumaczyć readme na angielski...
+
+    
