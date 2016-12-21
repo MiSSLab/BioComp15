@@ -29,7 +29,7 @@ public class AdjacencyMatrix {
 
     private void makeLabelsUnique(Node rootNode) {
         if (uniqueLabels.contains(rootNode.getLabel())) {
-            rootNode.setLabel(rootNode.getLabel() + i);
+            rootNode.setLabel(rootNode.getLabel() + (char) ('a' + i));
         }
         uniqueLabels.add(rootNode.getLabel());
         rootNode.getChildren().forEach(this::makeLabelsUnique);

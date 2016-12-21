@@ -14,7 +14,7 @@
   commentstyle=\color{red},
   keywordstyle=\color{blue}
 }
-
+\usepackage{float}
 \newcommand{\xmark}{\ding{55}}%
 
 
@@ -27,6 +27,101 @@ Subject 15: Distance phylogenetics: UPGMA and NJ}
 \newgeometry{margin=1.8cm}
 \maketitle
 
+\section{Usage}
+Program was developed in Java programming language without any external libraries. All sources are available on Github and compiled using \texttt{Maven}.
+\begin{lstlisting}[language=bash,caption={Building project}]
+git clone git@github.com:MiSSLab/BioComp15.git
+mvn package
+\end{lstlisting}
+Created Java archive can be run using \texttt{JRE}. Sample data can be found in directory \texttt{resources/}.
+\begin{lstlisting}[language=bash,caption={Running project using data1.matrix}]
+java -jar -Dfilename="resources/data1.matrix" \
+    target/distance-phylogenetics-jar-with-dependencies.jar
+\end{lstlisting}
+
+\section{Data formats}
+\subsection{Input}
+Application requires \texttt{CSV} data format and quadratic matrix of distances.
+
+\begin{lstlisting}[caption={Example data file content}]
+a,b,c,d,e
+0,8,8,5,3
+8,0,3,8,8
+8,3,0,8,8
+5,8,8,0,5
+3,8,8,5,0
+\end{lstlisting}
+Labels in header has to be lexicographically sorted, dense vector with every column matching \texttt{"[a-z]+"}.
+\newpage
+\subsection{Output}
+Resulting trees are printed in \texttt{ASCII}-art to the \texttt{STDOUT}.
+\begin{lstlisting}[caption={UPGMA output}]
+UPGMA(resources/data1.matrix)
+[[8.0]]
+|-[[5.0]]
+|  |-[[3.0]]
+|  |  |---- [[a]]
+|  |  `---- [[e]]
+|  `---- [[d]]
+`-[[3.0a]]
+   |---- [[b]]
+   `---- [[c]]
+
+     a b c d e 8.0 5.0 3.0 3.0a
+a   |0 0 0 0 0 0   0   1   0
+b   |0 0 0 0 0 0   0   0   1
+c   |0 0 0 0 0 0   0   0   1
+d   |0 0 0 0 0 0   1   0   0
+e   |0 0 0 0 0 0   0   1   0
+8.0 |0 0 0 0 0 0   1   0   1
+5.0 |0 0 0 1 0 1   0   1   0
+3.0 |1 0 0 0 1 0   1   0   0
+3.00|0 1 1 0 0 1   0   0   0
+
+UPGMA-canonical
+[[a]]
+`-[[3.0]]
+    |---- [[e]]
+    `-[[5.0]]
+        |---- [[d]]
+        `-[[8.0]]
+            `-[[3.0a]]
+                |---- [[b]]
+                `---- [[c]]
+\end{lstlisting}
+\newpage
+Despite the fact that NJ returns unrooted tree it is presented as a rooted one with particular node choosen as a root.
+\begin{lstlisting}[caption={NJ output}]
+NJ(resources/data1.matrix)
+[[g]]
+|---- [1.5-<-[a]]
+|---- [1.5-<-[e]]
+`-[1.75-<-[h]]
+    |---- [1.0-<-[d]]
+    `-[4.0-<-[f]]
+        |---- [1.5-<-[b]]
+        `---- [1.5-<-[c]]
+
+   a b c d e g h f
+a|0 0 0 0 0 1 0 0
+b|0 0 0 0 0 0 0 1
+c|0 0 0 0 0 0 0 1
+d|0 0 0 0 0 0 1 0
+e|0 0 0 0 0 1 0 0
+g|1 0 0 0 1 0 1 0
+h|0 0 0 1 0 1 0 1
+f|0 1 1 0 0 0 1 0
+
+NJ-canonical
+[[a]]
+`-[[g]]
+    |---- [[e]]
+    `-[[h]]
+        |---- [[d]]
+        `-[[f]]
+            |---- [[b]]
+            `---- [[c]]
+\end{lstlisting}
 \section{Algorithms}
 
 \subsection{UPGMA (ang. Unweighted Pair Group Method with Arithmetic Mean)}
@@ -47,6 +142,16 @@ Q - matrix: $ Q(i,j) = (n-2)d(i,j) - \sum_{k=1}^{n} d(i,k) - \sum_{k=1}^{n} d(j,
 Distance from the pair members to the new node: \\ \\
 $d'(f,u) = \frac{1}{2}d(f,g) + \frac{1}{2(n-2)}(\sum_{k=1}^n d(f,k) - \sum_{k=1}^n d(g,k))$ \\ \\
 $d(g,u) = d(f,g) - d'(f,u)$
+
+\begin{lstlisting}[caption={NJ pseudocode}]
+clusters[|L|]
+while (number of clusters > 2):
+    calculate Q-matrix
+    find the lowest q-distance
+    merge the q-closest clusters
+    update distances
+merge last 2 clusters
+\end{lstlisting}
 
 \subsection{Creaing adjacency matrix}
 Both rooted and unrooted trees created via UPGMA and NJ algorithms can be transformed to adjacency matrix. The algorithm for that is as follows:
@@ -79,7 +184,7 @@ function Node createNodes(int i, List<Integer> visited):
             node.children.add(createNodes(j, visited));
     return node;
 \end{lstlisting}
-
+\newpage
 \subsection{Tree comparison}
 Trees in canonical form can be easily compared using the following algorithm.
 \begin{lstlisting}[caption={Comparing trees.}]
@@ -104,71 +209,6 @@ function equals(Node aNode, Node bNode):
 \end{lstlisting}
 An important assumption in this algorithm is that we can compare labels of leaf-nodes, because they are those given as an input so they have to be equal.
 
-\begin{lstlisting}[caption={NJ pseudocode}]
-clusters[|L|]
-while (number of clusters > 2):
-    calculate Q-matrix
-    find the lowest q-distance
-    merge the q-closest clusters
-    update distances
-merge last 2 clusters
-\end{lstlisting}
-
-
-\subsection{Comparing topology}
-
-\section{Usage}
-Program was developed in Java programming language without any external libraries. All sources are available on Github and compiled using \texttt{Maven}.
-\begin{lstlisting}[language=bash,caption={Building project}]
-git clone git@github.com:MiSSLab/BioComp15.git
-mvn package
-\end{lstlisting}
-Created Java archive can be run using \texttt{JRE}. Sample data can be found in directory \texttt{resources/}.
-\begin{lstlisting}[language=bash,caption={Running project using data1.matrix}]
-java -jar -Dfilename="resources/data1.matrix" \
-    target/distance-phylogenetics-jar-with-dependencies.jar
-\end{lstlisting}
-
-\section{Data formats}
-\subsection{Input}
-Application requires \texttt{CSV} data format and quadratic matrix of distances.
-
-\begin{lstlisting}[caption={Example data file content}]
-a,b,c,d,e
-0,8,8,5,3
-8,0,3,8,8
-8,3,0,8,8
-5,8,8,0,5
-3,8,8,5,0
-\end{lstlisting}
-Labels in header has to be lexicographically sorted, dense vector with every column matching \texttt{"[a-z]+"}.
-\subsection{Output}
-Resulting trees are printed in \texttt{ASCII}-art to the \texttt{STDOUT}.
-\begin{lstlisting}[caption={UPGMA output}]
-UPGMA(resources/data2.matrix)
-[[33.0]]
-|-[[28.0]]
-|  |---- [[c]]
-|  `---- [[d]]
-`-[[22.0]]
-   |-[[17.0]]
-   |  |---- [[a]]
-   |  `---- [[b]]
-   `---- [[e]]
-\end{lstlisting}
-
-Despite the fact that NJ returns unrooted tree it is presented as a rooted one with particular node choosen as a root.
-\begin{lstlisting}[caption={NJ output}]
-NJ(resources/data2.matrix)
-[[g]]
-|---- [4.75-<-[a]]
-|-[7.25-<-[f]]
-|  |---- [11.0-<-[c]]
-|  `---- [17.0-<-[d]]
-`-[4.75-<-[h]]
-   |---- [6.75-<-[b]]
-   `---- [14.25-<-[e]]
-\end{lstlisting}
 
 \end{document}
 
