@@ -2,7 +2,6 @@ package pl.edu.pg.eti.biocomp.models;
 
 
 import pl.edu.pg.eti.biocomp.utils.Log;
-import pl.edu.pg.eti.biocomp.utils.Matrix;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,6 +18,11 @@ public class Tree {
     public Tree(String name) {
         rootNode = new Node(name);
         labels = new ArrayList<>(Collections.singletonList(name));
+    }
+
+    public Tree(Node rootNode) {
+        this.rootNode = rootNode;
+        labels = new ArrayList<>();
     }
 
     public Tree(String name, List<Node> children) {

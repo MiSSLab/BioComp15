@@ -10,7 +10,7 @@ public class Node {
     private final String label;
     private double distanceToParent = Double.NaN;
 
-    Node(String label) {
+    public Node(String label) {
         this.label = label;
     }
 
@@ -32,6 +32,10 @@ public class Node {
 
     public String getLabel() {
         return (Double.isNaN(distanceToParent) ? "" : distanceToParent + "-<-") + "[" + label + "]";
+    }
+
+    public String rawLabel() {
+        return label;
     }
 
     public void setDistanceToParent(double distanceToParent) {

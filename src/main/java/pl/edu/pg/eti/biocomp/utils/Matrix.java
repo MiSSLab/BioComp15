@@ -15,6 +15,23 @@ public class Matrix {
         this.data = format(data);
     }
 
+    public Matrix(int size) {
+        this.header = new String[size];
+        this.data = initQuadraticWithValue(size, .0d);
+    }
+
+    public int establishPosition(String label) {
+        for (int i = 0; i < header.length; i++) {
+            if (header[i] != null && header[i].equals(label)) {
+                return i;
+            } else if (header[i] == null) {
+                header[i] = label;
+                return i;
+            }
+        }
+        throw new RuntimeException("something went wrong when establishing position");
+    }
+
     public String[] getHeader() {
         return header;
     }
@@ -105,5 +122,38 @@ public class Matrix {
         }
         LOGGER.exiting(Matrix.class.getCanonicalName(), "findLowestValuePoint", minPoint);
         return minPoint;
+    }
+
+    public void print() {
+        int[] labelLengths = new int[header.length];
+        int maxLength = 0;
+        for (int i = 0; i < header.length; i++) {
+            labelLengths[i] = header[i].length();
+            if (labelLengths[i] > maxLength) {
+                maxLength = labelLengths[i];
+            }
+        }
+        for (int i = 0; i <= maxLength; i++) {
+            System.out.print(" ");
+        }
+        for (int i = 0; i < header.length; i++) {
+            System.out.print(header[i] + " ");
+        }
+        System.out.print("\n");
+        for (int i = 0; i < data.length; i++) {
+            System.out.print(header[i]);
+            for (int k = 0; k < maxLength - header[i].length(); k++) {
+                System.out.print(" ");
+            }
+            System.out.print("|");
+            for (int j = 0; j < data[i].length; j++) {
+                System.out.print((int) data[i][j]);
+                for (int k = 0; k <= header[j].length() - String.valueOf((int) data[i][j]).length(); k++) {
+                    System.out.print(" ");
+                }
+            }
+            System.out.print("\n");
+        }
+        System.out.print("\n");
     }
 }
