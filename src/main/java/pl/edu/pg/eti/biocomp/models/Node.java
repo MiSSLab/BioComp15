@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Node {
     private List<Node> children;
-    private final String label;
+    private String label;
     private double distanceToParent = Double.NaN;
 
     public Node(String label) {
@@ -30,12 +30,16 @@ public class Node {
         return 1 + getChildren().stream().mapToInt(Node::getNumberOfNodes).sum();
     }
 
-    public String getLabel() {
+    public String printableLable() {
         return (Double.isNaN(distanceToParent) ? "" : distanceToParent + "-<-") + "[" + label + "]";
     }
 
-    public String rawLabel() {
+    public String getLabel() {
         return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
     }
 
     public void setDistanceToParent(double distanceToParent) {

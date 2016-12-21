@@ -48,6 +48,62 @@ Distance from the pair members to the new node: \\ \\
 $d'(f,u) = \frac{1}{2}d(f,g) + \frac{1}{2(n-2)}(\sum_{k=1}^n d(f,k) - \sum_{k=1}^n d(g,k))$ \\ \\
 $d(g,u) = d(f,g) - d'(f,u)$
 
+\subsection{Creaing adjacency matrix}
+Both rooted and unrooted trees created via UPGMA and NJ algorithms can be transformed to adjacency matrix. The algorithm for that is as follows:
+\begin{lstlisting}[caption={Tree to adjacency matrix.}]
+function walk(Node rootNode):
+    int x = adjacencyMatrix.establishPosition(rootNode)
+    for (node : rootNode.getChildren ):
+        int y = adjacencyMatrix.establishPosition(node)
+        adjacencyMatrix[x][y] = 1;
+        adjacencyMatrix[y][x] = 1;
+        walk(node);
+
+init adjacency matrix with 0;
+walk(tree.rootNode)
+\end{lstlisting}
+
+\subsection{Creating canonical tree}
+To compare trees, we need its canonical form. It will be a tree with the first node from input data as a root.
+\begin{lstlisting}[caption={Tree to adjacency matrix.}]
+function toCanonicalTree:
+    List<Integer> visited = new ArrayList<>();
+    Node rootNode = createNodes(0, visited);
+    return new Tree(rootNode);
+
+function Node createNodes(int i, List<Integer> visited):
+    visited.add(i);
+    Node node = new Node(adjacencyMatrix.header[i]);
+    for (j = 0; j < adjacencyMatrix.header.length; j++):
+        if (visited.notContains(j) && adjacencyMatrix[i][j] = 1):
+            node.children.add(createNodes(j, visited));
+    return node;
+\end{lstlisting}
+
+\subsection{Tree comparison}
+Trees in canonical form can be easily compared using the following algorithm.
+\begin{lstlisting}[caption={Comparing trees.}]
+function equals(Node aNode, Node bNode):
+    if (aNode.children.size = bNode.children.size):
+        if (aNode.children.size == 0 && .children.size  == 0) {
+            if (aNode.label = bNode.label) {
+                return true
+            else:
+                return false
+        else:
+            comparisons = []
+            for (aChild : aNode.children):
+                comparisons2 = []
+                for (bChild : bNode.children):
+                    boolean equals = equals(aChild, bChild)
+                    comparisons2.add(equals)
+                comparisons.add(comparisons2.reduce(or))
+            return comparisons.reduce(and)
+    else:
+        return false;
+\end{lstlisting}
+An important assumption in this algorithm is that we can compare labels of leaf-nodes, because they are those given as an input so they have to be equal.
+
 \begin{lstlisting}[caption={NJ pseudocode}]
 clusters[|L|]
 while (number of clusters > 2):
@@ -100,7 +156,6 @@ UPGMA(resources/data2.matrix)
    |  `---- [[b]]
    `---- [[e]]
 \end{lstlisting}
-
 
 Despite the fact that NJ returns unrooted tree it is presented as a rooted one with particular node choosen as a root.
 \begin{lstlisting}[caption={NJ output}]

@@ -23,7 +23,7 @@ public class TreePrinter {
     }
 
     private static StringBuilder renderNode(Node node, int level, StringBuilder sb, boolean isLast) {
-        indent(sb, level, isLast).append("[").append(node.getLabel()).append("]\n");
+        indent(sb, level, isLast).append("[").append(node.printableLable()).append("]\n");
         List<Node> list = node.getChildren();
         for (int i = 0; i < list.size(); i++) {
             boolean last = ((i + 1) == list.size());
@@ -37,7 +37,7 @@ public class TreePrinter {
     }
 
     private static void renderLeaf(Node node, int level, StringBuilder sb, boolean isLast) {
-        indent(sb, level, isLast).append("--- [").append(node.getLabel()).append("]\n");
+        indent(sb, level, isLast).append("--- [").append(node.printableLable()).append("]\n");
     }
 
     private static StringBuilder indent(StringBuilder sb, int level, boolean isLast) {

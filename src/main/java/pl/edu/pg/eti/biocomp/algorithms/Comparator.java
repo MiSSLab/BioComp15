@@ -27,7 +27,7 @@ public class Comparator {
         LOGGER.entering(Comparator.class.getCanonicalName(), "equals", new Node[]{aNode, bNode});
         if (aNode.getChildren().size() == bNode.getChildren().size()) {
             if (aNode.getChildren().size() == 0 && bNode.getChildren().size() == 0) {
-                if (aNode.getLabel().equals(bNode.getLabel())) {
+                if (aNode.printableLable().equals(bNode.printableLable())) {
                     LOGGER.exiting(Comparator.class.getCanonicalName(), "equals", true);
                     return true;
                 } else {
@@ -40,7 +40,7 @@ public class Comparator {
                     List<Boolean> comparisons2 = new ArrayList<>();
                     for (Node bChild : bNode.getChildren()) {
                         boolean equals = equals(aChild, bChild);
-                        LOGGER.info(equals + aChild.getLabel() + "<<<>>>" + bChild.getLabel());
+                        LOGGER.info(equals + aChild.printableLable() + "<<<>>>" + bChild.printableLable());
                         comparisons2.add(equals);
                     }
                     comparisons.add(comparisons2.stream().reduce(or()).get());
