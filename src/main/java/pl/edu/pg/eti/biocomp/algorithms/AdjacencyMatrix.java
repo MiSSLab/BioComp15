@@ -15,13 +15,8 @@ public class AdjacencyMatrix {
         int size = rootNode.getNumberOfNodes();
         adjacencyMatrix = new Matrix(size);
         String[] header = adjacencyMatrix.getHeader();
-        double[][] data = adjacencyMatrix.getData();
         System.arraycopy(initialHeader, 0, header, 0, initialHeader.length);
         walk(rootNode);
-    }
-
-    public Matrix getAdjacencyMatrix() {
-        return adjacencyMatrix;
     }
 
     private void walk(Node rootNode) {
